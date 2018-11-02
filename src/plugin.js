@@ -232,7 +232,7 @@ const analytics = function(options) {
 };
 
 // Register the plugin with video.js.
-videojs.plugin('analytics', analytics);
+videojs.registerPlugin('analytics', analytics);
 
 // Include the version number.
 analytics.VERSION = '__VERSION__';
