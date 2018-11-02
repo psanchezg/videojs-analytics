@@ -22,6 +22,7 @@ To include videojs-analytics on your website or web application, use any of the 
 <script>
     player.analytics({
         mode: 'GTAG',
+        assetName: '[VideoId]',
         events: [...]
       });
 </script>
@@ -39,7 +40,7 @@ To implement Google Analytics this is the simplest case. Get the script in whate
 <script>
   var player = videojs('my-video');
 
-  player.analytics();
+  player.analytics({assetName:'my-video'});
 </script>
 ```
 
@@ -66,6 +67,7 @@ To implement GTags this is the simplest case. Get the script in whatever way you
   <script>
     player.analytics({
         mode: 'GTAG',
+        assetName: 'my-video',
         events: [...]
       });
   </script>
@@ -175,6 +177,13 @@ player.analytics({
     {
       name: 'timeupdate',
       action: 'time updated',
+      label: {
+        q1: 'Complete 10%',
+        q2: 'Complete 25%',
+        q3: 'Complete 50%',
+        q4: 'Complete 75%',
+        q5: 'Complete 90%'
+      }
     }
   ]
 })

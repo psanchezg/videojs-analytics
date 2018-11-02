@@ -1,6 +1,6 @@
 {
   "name": "videojs-analytics",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Track Google Analytics events from video.js players",
   "main": "es5/plugin.js",
   "generator-videojs-plugin": {
@@ -12,11 +12,12 @@
     "build:js": "npm-run-all build:js:babel build:js:browserify build:js:bannerize build:js:collapse build:js:uglify",
     "build:js:babel": "babel src -d es5",
     "build:js:bannerize": "bannerize dist/videojs-analytics.js --banner=scripts/banner.ejs",
-    "build:js:browserify": "browserify . -g browserify-shim -s videojs-analytics -o dist/videojs-analytics.js",
+    "build:js:browserify": "browserify es5/plugin.js -g browserify-shim -s videojs-analytics -o dist/videojs-analytics.js",
     "build:js:collapse": "bundle-collapser dist/videojs-analytics.js -o dist/videojs-analytics.min.js",
     "build:js:uglify": "uglifyjs dist/videojs-analytics.min.js --comments --mangle --compress -o dist/videojs-analytics.min.js",
     "build:test": "babel-node scripts/build-test.js",
     "clean": "rimraf dist test/dist es5 && mkdirp dist test/dist es5",
+    "preversion": "npm test",
     "lint": "vjsstandard",
     "start": "babel-node scripts/server.js",
     "pretest": "npm-run-all lint build",
@@ -36,6 +37,10 @@
   ],
   "author": "Adam Oliver <mail@adamoliver.net>",
   "license": "MIT",
+  "files": [
+    "CONTRIBUTING.md",
+    "src/"
+  ],
   "browserify": {
     "transform": [
       "browserify-versionify"
@@ -46,9 +51,7 @@
     "sinon": "global:sinon",
     "video.js": "global:videojs"
   },
-  "style": "dist/videojs-analytics.css",
   "videojs-plugin": {
-    "style": "dist/videojs-analytics.css",
     "script": "dist/videojs-analytics.min.js"
   },
   "vjsstandard": {
@@ -73,8 +76,7 @@
     "test/"
   ],
   "dependencies": {
-    "browserify-versionify": "^1.0.6",
-    "video.js": "^5.10.1"
+    "video.js": ">=7.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
@@ -84,11 +86,13 @@
     "bannerize": "^1.0.2",
     "bluebird": "^3.2.2",
     "browserify": "^12.0.2",
-    "browserify-shim": "^3.8.12",
+    "browserify-shim": "^3.8.14",
+    "browserify-versionify": "^1.0.6",
     "budo": "^8.0.4",
     "bundle-collapser": "^1.2.1",
     "glob": "^6.0.3",
-    "global": "^4.3.0",
+    "global": "^4.3.2",
+    "inherits": "^2.0.3",
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-detect-browsers": "^2.0.2",

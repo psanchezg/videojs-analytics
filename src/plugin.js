@@ -1,6 +1,3 @@
-import videojs from 'video.js';
-
-// Default options for the plugin.
 const defaults = {
   events: [],
   assetName: 'Video',
@@ -11,14 +8,6 @@ const defaults = {
 const analyticsMode = {
   googleAnalytics: 'GA',
   googleTags: 'GTAG'
-};
-
-window.ga = window.ga || function() {
-  return void 0;
-};
-
-window.gtag = window.gtag || function() {
-  return void 0;
 };
 
 /**
@@ -40,10 +29,21 @@ const analytics = function(options) {
   this.ready(() => {
 
     let progress = {
-      quarter: false,
-      half: false,
-      threeQuarters: false
+      q1: false,
+      q2: false,
+      q3: false,
+      q4: false,
+      q5: false
     };
+    
+    var sendGa = function(name, event, category, action, label) {
+      window.ga(function() {
+            var trackers = window.ga.getAll();
+            var firstTracker = trackers[0];
+            var trackerName = firstTracker.a.data.values[":name"];
+            window.ga(trackerName + '.' + name, event, category, action, label);
+        });
+    }
 
     function track(player, action, label) {
       let category = options.defaultVideoCategory;
@@ -57,18 +57,18 @@ const analytics = function(options) {
         label = '';
       }
 
-      if (options.mode === analyticsMode.googleTags) {
+      if (options.mode === analyticsMode.googleTags && window.gtag) {
         window.gtag('event', action,
         /* eslint camelcase: 0 */
         {event_category: category, event_label: label, customDimensions});
       } else {
-        window.ga('send', 'event', category, action, label);
+        sendGa('send', 'event', category, action, label)
       }
     }
 
     function play(player, event) {
       track(player, event.action, event.label);
-      track(player, 'Asset name', options.assetName);
+      track(player, 'mediaid', options.assetName);
     }
 
     function pause(player, event) {
@@ -106,19 +106,29 @@ const analytics = function(options) {
       let duration = Math.round(player.duration());
       let percent = Math.round(elapsed / duration * 100);
 
-      if (!progress.quarter && percent > 25) {
-        track(player, event.action, 'Complete 25%');
-        progress.quarter = true;
+      if (!progress.q1 && percent > 10) {
+        track(player, event.action, event.label.q1 || 'Complete 10%');
+        progress.q1 = true;
       }
 
-      if (!progress.half && percent > 50) {
-        track(player, event.action, 'Complete 50%');
-        progress.half = true;
+      if (!progress.q2 && percent > 25) {
+        track(player, event.action, event.label.q2 || 'Complete 25%');
+        progress.q2 = true;
       }
 
-      if (!progress.threeQuarters && percent > 75) {
-        track(player, event.action, 'Complete 75%');
-        progress.threeQuarters = true;
+      if (!progress.q3 && percent > 50) {
+        track(player, event.action, event.label.q3 || 'Complete 50%');
+        progress.q3 = true;
+      }
+
+      if (!progress.q4 && percent > 75) {
+        track(player, event.action, event.label.q4 || 'Complete 75%');
+        progress.q4 = true;
+      }
+
+      if (!progress.q5 && percent > 90) {
+        track(player, event.action, event.label.q5 || 'Complete 90%');
+        progress.q5 = true;
       }
     }
 
@@ -222,4 +232,4 @@ videojs.plugin('analytics', analytics);
 // Include the version number.
 analytics.VERSION = '__VERSION__';
 
-export default analytics;
+global.window.analytics = analytics;
