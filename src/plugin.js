@@ -28,26 +28,29 @@ const analytics = function(options) {
 
   this.ready(() => {
 
-    let progress = {
+    const mediaprogress = {
       q1: false,
       q2: false,
       q3: false,
       q4: false,
       q5: false
     };
-    
-    var sendGa = function(name, event, category, action, label) {
+
+    function sendGa(name, event, category, action, label) {
       window.ga(function() {
-            var trackers = window.ga.getAll();
-            var firstTracker = trackers[0];
-            var trackerName = firstTracker.a.data.values[":name"];
-            window.ga(trackerName + '.' + name, event, category, action, label);
-        });
+        const trackers = window.ga.getAll();
+
+        const firstTracker = trackers[0];
+
+        const trackerName = firstTracker.a.data.values[':name'];
+
+        window.ga(trackerName + '.' + name, event, category, action, label);
+      });
     }
 
     function track(player, action, label) {
       let category = options.defaultVideoCategory;
-      let customDimensions = options.customDimensions || {};
+      const customDimensions = options.customDimensions || {};
 
       if (player.isAudio()) {
         category = options.defaultAudioCategory;
@@ -58,11 +61,13 @@ const analytics = function(options) {
       }
 
       if (options.mode === analyticsMode.googleTags && window.gtag) {
-        window.gtag('event', action,
-        /* eslint camelcase: 0 */
-        {event_category: category, event_label: label, customDimensions});
+        window.gtag(
+          'event', action,
+          /* eslint camelcase: 0 */
+          {event_category: category, event_label: label, customDimensions}
+        );
       } else {
-        sendGa('send', 'event', category, action, label)
+        sendGa('send', 'event', category, action, label);
       }
     }
 
@@ -96,39 +101,39 @@ const analytics = function(options) {
       if (player.currentResolution) {
         resolution = player.currentResolution();
       }
-      let label = resolution.label ? resolution.label : 'Default';
+      const label = resolution.label ? resolution.label : 'Default';
 
       track(player, event.action, label);
     }
 
     function timeupdate(player, event) {
-      let elapsed = Math.round(player.currentTime());
-      let duration = Math.round(player.duration());
-      let percent = Math.round(elapsed / duration * 100);
+      const elapsed = Math.round(player.currentTime());
+      const duration = Math.round(player.duration());
+      const percent = Math.round(elapsed / duration * 100);
 
-      if (!progress.q1 && percent > 10) {
+      if (!mediaprogress.q1 && percent > 10) {
         track(player, event.action, event.label.q1 || 'Complete 10%');
-        progress.q1 = true;
+        mediaprogress.q1 = true;
       }
 
-      if (!progress.q2 && percent > 25) {
+      if (!mediaprogress.q2 && percent > 25) {
         track(player, event.action, event.label.q2 || 'Complete 25%');
-        progress.q2 = true;
+        mediaprogress.q2 = true;
       }
 
-      if (!progress.q3 && percent > 50) {
+      if (!mediaprogress.q3 && percent > 50) {
         track(player, event.action, event.label.q3 || 'Complete 50%');
-        progress.q3 = true;
+        mediaprogress.q3 = true;
       }
 
-      if (!progress.q4 && percent > 75) {
+      if (!mediaprogress.q4 && percent > 75) {
         track(player, event.action, event.label.q4 || 'Complete 75%');
-        progress.q4 = true;
+        mediaprogress.q4 = true;
       }
 
-      if (!progress.q5 && percent > 90) {
+      if (!mediaprogress.q5 && percent > 90) {
         track(player, event.action, event.label.q5 || 'Complete 90%');
-        progress.q5 = true;
+        mediaprogress.q5 = true;
       }
     }
 
@@ -216,7 +221,7 @@ const analytics = function(options) {
 
     // For any other event that doesn't require special processing
     // we will use the handleEvent event handler
-    for (let event of options.events) {
+    for (const event of options.events) {
       this.on(event.name, function() {
         handleEvent(this, event);
       });

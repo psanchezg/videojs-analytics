@@ -231,6 +231,12 @@ require(['video.js', 'videojs-analytics'], function(videojs) {
 });
 ```
 
+## Build
+
+```sh
+npm install --only=dev
+```
+
 ## License
 
 MIT. Copyright (c) Adam Oliver &lt;mail@adamoliver.net&gt;

@@ -18,15 +18,9 @@
     "build:test": "babel-node scripts/build-test.js",
     "clean": "rimraf dist test/dist es5 && mkdirp dist test/dist es5",
     "preversion": "npm test",
-    "lint": "vjsstandard",
+    "lint": "vjsstandard src/plugin.js",
     "start": "babel-node scripts/server.js",
     "pretest": "npm-run-all lint build",
-    "test": "karma start test/karma.conf.js",
-    "test:chrome": "npm run pretest && karma start test/karma.conf.js --browsers Chrome",
-    "test:firefox": "npm run pretest && karma start test/karma.conf.js --browsers Firefox",
-    "test:ie": "npm run pretest && karma start test/karma.conf.js --browsers IE",
-    "test:safari": "npm run pretest && karma start test/karma.conf.js --browsers Safari",
-    "preversion": "npm test",
     "version": "babel-node scripts/version.js",
     "postversion": "babel-node scripts/postversion.js",
     "prepublish": "npm run build"
@@ -39,7 +33,14 @@
   "license": "MIT",
   "files": [
     "CONTRIBUTING.md",
-    "src/"
+    "bower.json",
+    "dist/",
+    "docs/",
+    "es5/",
+    "index.html",
+    "scripts/",
+    "src/",
+    "test/"
   ],
   "browserify": {
     "transform": [
@@ -55,26 +56,17 @@
     "script": "dist/videojs-analytics.min.js"
   },
   "vjsstandard": {
+    "jsdoc": false,
     "ignore": [
       "dist",
       "docs",
       "es5",
       "scripts",
       "test/dist",
-      "test/karma.conf.js"
+      "test/karma.conf.js",
+      "node_modules"
     ]
   },
-  "files": [
-    "CONTRIBUTING.md",
-    "bower.json",
-    "dist/",
-    "docs/",
-    "es5/",
-    "index.html",
-    "scripts/",
-    "src/",
-    "test/"
-  ],
   "dependencies": {
     "video.js": ">=7.0.0"
   },
@@ -82,8 +74,9 @@
     "babel-cli": "^6.14.0",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-preset-es2015": "^6.14.0",
+    "babel-runtime": "^6.26.0",
     "babelify": "^7.3.0",
-    "bannerize": "^1.0.2",
+    "bannerize": "^1.1.3",
     "bluebird": "^3.2.2",
     "browserify": "^12.0.2",
     "browserify-shim": "^3.8.14",
@@ -93,21 +86,14 @@
     "glob": "^6.0.3",
     "global": "^4.3.2",
     "inherits": "^2.0.3",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-detect-browsers": "^2.0.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-qunit": "^0.1.9",
-    "karma-safari-launcher": "^0.1.1",
-    "lodash": "^4.11.2",
-    "mkdirp": "^0.5.1",
+    "lodash": "latest",
+    "mkdirp": "latest",
     "npm-run-all": "^1.5.1",
     "qunitjs": "^1.21.0",
     "rimraf": "^2.5.1",
     "semver": "^5.3.0",
     "sinon": "~1.14.0",
     "uglify-js": "^2.6.1",
-    "videojs-standard": "^4.0.0"
+    "videojs-standard": "^8.0.2"
   }
 }
