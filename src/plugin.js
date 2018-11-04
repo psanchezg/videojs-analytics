@@ -10,6 +10,10 @@ const analyticsMode = {
   googleTags: 'GTAG'
 };
 
+window.ga = window.ga || function() {
+  return void 0;
+};
+
 /**
  * A video.js plugin.
  *
