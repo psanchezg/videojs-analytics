@@ -166,11 +166,6 @@ player.analytics({
       action: 'error',
     },
     {
-      name: 'resize',
-      label: 'resize',
-      action: 'resize',
-    },
-    {
       name: 'resolutionchange',
       action: 'resolution change',
     },
