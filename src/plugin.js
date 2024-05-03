@@ -28,7 +28,7 @@ window.ga = window.ga || function() {
  */
 const analytics = function(options) {
 
-  options = videojs.mergeOptions(defaults, options);
+  options = videojs.obj.merge(defaults, options);
 
   this.ready(() => {
 

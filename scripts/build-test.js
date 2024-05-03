@@ -1,6 +1,7 @@
 import browserify from 'browserify';
 import fs from 'fs';
-import glob from 'glob';
+import { glob } from 'glob'
+
 
 /* eslint no-console: 0 */
 

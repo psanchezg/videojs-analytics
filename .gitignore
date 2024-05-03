@@ -34,3 +34,4 @@ docs/api/
 es5/
 test/dist/
 .eslintcache
+package-lock.json
